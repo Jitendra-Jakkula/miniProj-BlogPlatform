@@ -1,0 +1,35 @@
+<% layout('./layouts/boilerplate') -%>
+<div class="container col-md-5 py-5">
+  <form class="needs-validation" novalidate method="post" action="/posts/<%= post._id %>?_method=PUT" enctype="multipart/form-data">
+
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title :</label>
+      <input type="text" class="form-control" name="title" placeholder="Title of the Post" required
+             value="<%= post.title %>" minlength="3" maxlength="150">
+      <div class="invalid-feedback">
+        Please enter a title (3-150 characters).
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="mb-4">
+      <label for="content" class="form-label">Content :</label>
+      <textarea class="form-control" name="content" rows="12" required minlength="10"><%= post.content %></textarea>
+      <div class="invalid-feedback">
+        Please enter the content (at least 10 characters).
+      </div>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="mb-3">
+      <label for="coverImage" class="form-label">Cover Image:</label>
+      <input class="form-control" type="file" name="coverImage">
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary btn-lg w-50 mb-3">Update</button>
+    </div>
+    
+  </form>
+</div>

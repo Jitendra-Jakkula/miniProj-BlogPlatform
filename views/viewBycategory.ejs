@@ -1,0 +1,63 @@
+<% layout('./layouts/boilerplate') -%>
+
+    <div class="container py-5">
+
+        <!-- 🔹 Category Name Heading -->
+        <h2 class="mb-4 text-center">
+            Posts in "<%= category.name %>"
+        </h2>
+
+        <!-- 🔄 Posts Loop -->
+        <% posts.forEach(p=> { %>
+            <div class="card border-0 rounded-4 shadow-sm overflow-hidden mb-5"
+                style="min-height: 250px; min-width: 98%">
+                <div class="row g-0 h-100">
+
+                    <!-- Image -->
+                    <div class="col-md-6 bg-light d-flex align-items-center justify-content-center">
+                        <div class="ratio ratio-16x9 w-100">
+                            <% if (p.coverImage) { %>
+                                <img src="data:<%= p.coverImage.contentType %>;base64,<%=p.coverImage.toString('base64') %>"
+                                    alt="Cover Image" class="img-fluid object-fit-cover w-100 h-100" />
+                                <% } else { %>
+                                    <img src="/images/blogdefault.jpg" alt="Cover Image"
+                                        class="img-fluid object-fit-cover w-100 h-100" />
+                                    <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="col-md-6 p-4 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="badge bg-dark me-2">
+                                <%= p.category?.name || "Uncategorized" %>
+                            </span>
+                        </div>
+
+                        <h3 class="fw-bold mb-3">
+                            <%= p.title %>
+                        </h3>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <% if (p.author.profilepic) { %>
+                                <img src="data:<%= p.author.profilepic.contentType %>;base64,<%=p.author.profilepic.toString('base64') %>"
+                                    alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
+                                <% } else { %>
+                                    <img src="/images/default-profile.png" alt="Default Profile Picture" width="25"
+                                        height="25" class="rounded-circle me-2" />
+                                    <% } %>
+                                        <small class="text-muted">&nbsp; <%= p.author?.username || "Unknown" %></small>
+                        </div>
+
+                        <p class="text-muted mb-4">
+                            <%= p.content.length> 200 ? p.content.slice(0, 200) + '...' : p.content %>
+                        </p>
+
+                        <a href="/posts/<%= p._id %>" class="btn btn-outline-dark align-self-start">Read more →</a>
+                    </div>
+
+                </div>
+            </div>
+            <% }) %>
+
+    </div>

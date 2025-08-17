@@ -1,0 +1,56 @@
+<% layout('./layouts/boilerplate') -%>
+
+<div class="container col-md-5 py-5">
+  <h2 class="mb-4 text-center">Create Post</h2>
+
+  <form method="post" action="/posts/create" enctype="multipart/form-data" class="needs-validation" novalidate>
+    
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input type="text" class="form-control" name="title" placeholder="Title of the Post" required minlength="3" maxlength="150">
+      <div class="invalid-feedback">
+        Title is required (3-150 characters).
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="mb-4">
+      <label for="content" class="form-label">Content:</label>
+      <textarea class="form-control" name="content" rows="10" required minlength="10"></textarea>
+      <div class="invalid-feedback">
+        Content is required (min 10 characters).
+      </div>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="mb-3">
+      <label for="coverImage" class="form-label">Cover Image:</label>
+      <input class="form-control" type="file" name="coverImage" accept="image/*">
+      <div class="invalid-feedback">
+        Please upload a valid image file.
+      </div>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-4">
+      <label for="category" class="form-label">Category:</label>
+      <select class="form-select" name="category" required>
+        <option value="">Select Category</option>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat._id %>"><%= cat.name %></option>
+        <% }) %>
+      </select>
+      <div class="invalid-feedback">
+        Please select a category.
+      </div>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-success btn-lg w-50 mb-3">Create Post</button>
+    </div>
+
+  </form>
+</div>
+
+

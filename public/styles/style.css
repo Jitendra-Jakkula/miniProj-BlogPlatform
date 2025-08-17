@@ -1,0 +1,23 @@
+.py-custom{
+      padding-top: 0.4rem;  /* ~py-2.5 */
+  padding-bottom: 0.4rem;
+}
+
+.card{
+    width: 80%;
+}
+.card img{
+    width: 100%
+}
+.card{
+    display: flex;
+    flex-direction: column;
+}
+
+.cont-pad{
+    padding-top: 3rem;
+}
+
+.dropdown-center .dropdown-toggle::after {
+    display: none;
+}

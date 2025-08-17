@@ -1,0 +1,36 @@
+# Node modules (dependencies installed via npm/yarn)
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (secrets like DB connection, JWT keys, API keys)
+.env
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Build / cache files
+dist/
+build/
+.cache/
+
+# Coverage reports
+coverage/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+
+# Debugging files
+*.pid
+*.seed
+
+# Optional: If you use uploads or temporary file storage locally
+uploads/

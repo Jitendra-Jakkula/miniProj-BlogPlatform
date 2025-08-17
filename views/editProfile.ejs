@@ -1,0 +1,65 @@
+<% layout('./layouts/boilerplate') -%>
+
+    <div class="container py-5 col-md-6">
+        <h2 class="text-center mb-4">Edit Profile</h2>
+
+        <div class="row justify-content-center">
+            <div class="card shadow-sm p-4">
+
+                <!-- Profile Picture -->
+                <div class="text-center mb-4">
+                    <% if (user.profilepic) { %>
+                        <img src="data:<%= user.profilepic.contentType %>;base64,<%= user.profilepic.toString('base64') %>"
+                            alt="Profile Picture" class="rounded-circle"
+                            style="width: 120px; height: 120px; object-fit: cover;">
+                        <% } else { %>
+                            <img src="/images/default-profile.png" alt="Default Profile" class="rounded-circle"
+                                style="width: 120px; height: 120px; object-fit: cover;">
+                            <% } %>
+                </div>
+
+                <!-- Edit Profile Form -->
+                <form class="needs-validation" novalidate action="/user/edit/<%= user._id %>?_method=PUT" method="post"
+                    enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="fname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fname" name="fname" value="<%= user.fname %>"
+                            required minlength="3" maxlength="50" pattern="^[a-zA-Z\s]+$">
+                        <div class="invalid-feedback">
+                            Please enter a valid full name (3-50 characters, letters only).
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>"
+                            required minlength="5" maxlength="100">
+                        <div class="invalid-feedback">
+                            Please enter a valid email (5-100 characters).
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bio" class="form-label">About Me</label>
+                        <textarea class="form-control" id="bio" name="bio" rows="5" required minlength="10"
+                            maxlength="300"><%= user.bio || '' %></textarea>
+                        <div class="invalid-feedback">
+                            Please enter your bio (10-300 characters).
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="profilepic" class="form-label">Change Profile Picture</label>
+                        <input class="form-control" type="file" id="profilepic" name="profilepic" accept="image/*">
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>

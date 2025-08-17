@@ -1,0 +1,46 @@
+<% layout('./layouts/nonav') -%>
+<div class="container col-md-5 px-5 py-5">
+  <h3>Login</h3>
+  <form class="row g-3 needs-validation mt-3" method="post" action="/user/login" novalidate>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+      <div class="invalid-feedback">
+        Please enter a valid email address.
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" name="password" placeholder="Enter Password" minlength="6" maxlength="20" required>
+      <div class="invalid-feedback">
+        Please enter your password , Password must be 6-20 characters.
+      </div>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-success btn-lg w-50 mb-3">Login</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  // Bootstrap 5 validation script
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

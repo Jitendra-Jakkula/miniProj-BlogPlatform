@@ -1,0 +1,38 @@
+<% layout('./layouts/boilerplate') -%>
+<div class="container my-5">
+        <h3 class="mb-4 text-center">My Posts</h3>
+<div class="card mx-auto shadow my-2 px-4 py-4" style="max-width: 40rem;">
+            <h4> My Posts </h4>
+            <% if(posts.length>0) {%>
+
+           
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% posts.forEach((p,i)=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= i+1 %>
+                            </th>
+                            <td>
+                                
+                                <%= p.title %>
+                            </td>
+                            <td>
+                                <a href="/posts/<%=p._id %>">View</a>
+                                
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+             <% }else {%>
+                <p>No Posts ! <a href="/posts/create">Create a Post</a></p>
+                <% } %>
+        </div>
+        </div>

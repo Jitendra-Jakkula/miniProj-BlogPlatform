@@ -1,0 +1,84 @@
+<% layout('./layouts/boilerplate') -%>
+
+    <div class="container my-5">
+        <h3 class="mb-4 text-center">My Profile</h3>
+
+        <div class="card mx-auto shadow" style="max-width: 40rem;">
+            <!-- Profile Picture -->
+            <% if (user.profilepic) { %>
+                <img src="data:<%= user.profilepic.contentType %>;base64,<%= user.profilepic.toString('base64') %>"
+                    alt="Profile Picture" class="card-img-top mx-auto mt-3"
+                    style="height: 15rem; width: 15rem; border-radius: 50%; object-fit: cover;" />
+                <% } else { %>
+                    <img src="/images/default-profile.png" alt="Default Profile Picture"
+                        class="rounded-circle mx-auto mt-3" style="height: 12rem; width: 12rem; object-fit: cover;" />
+                    <% } %>
+
+                        <!-- Name -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <%= user.fname %>
+                            </h5>
+                        </div>
+
+                        <!-- User Info -->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-0"><strong>Username:</strong>
+                                <%= user.username %>
+                            </li>
+                            <li class="list-group-item border-0"><strong>Email:</strong>
+                                <%= user.email %>
+                            </li>
+                            <li class="list-group-item border-0">
+                                <strong>About Me:</strong> <br>
+                                <%= user.bio || "No bio available." %>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Joined on:</strong>
+                                <%= new Date(user.createdAt).toLocaleDateString('en-IN', { weekday: 'short' ,
+                                    year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                            </li>
+                        </ul>
+
+                        <!-- Optional Links -->
+                        <div class="card-body text-center">
+                            <a href="/user/edit/<%=user._id %>" class="btn btn-outline-primary btn-sm mx-1">Edit
+                                Profile</a>
+                            <!-- <a href="#" class="btn btn-outline-secondary btn-sm mx-1">View My Posts</a> -->
+                        </div>
+        </div>
+        <div class="card mx-auto shadow my-2 px-4 py-4" style="max-width: 40rem;">
+            <h4> My Posts </h4>
+            <% if(post.length>0) {%>
+
+           
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% post.forEach((p,i)=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= i+1 %>
+                            </th>
+                            <td>
+                                
+                                <%= p.title %>
+                            </td>
+                            <td>
+                                <a href="/posts/<%=p._id %>">View</a>
+                                
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+             <% }else {%>
+                <p>No Posts ! <a href="/posts/create">Create a Post</a></p>
+                <% } %>
+        </div>
+    </div>

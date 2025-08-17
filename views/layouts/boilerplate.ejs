@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="/styles/style.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/images/logo1.png" />
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-white  fixed-top shadow-sm py-custom">
+        <div class="container-fluid px-4 d-flex align-items-center justify-content-between ">
+
+            <!-- Left: Logo -->
+            <a class="navbar-brand d-flex align-items-center ms-5 px-3" href="/posts">
+                <img src="/images/logo3.png" alt="Logo" width="60" class="me-2">
+                <!-- <span class="fw-bold text-primary">nameless</span> -->
+            </a>
+
+            <!-- Center: Nav Links -->
+            <ul class="navbar-nav mx-auto d-flex flex-row gap-4">
+                <li class="nav-item">
+                    <a class="nav-link fw-medium text-dark" href="/posts">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-medium text-dark" href="/posts/create">Create a Blog</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link fw-medium text-dark" href="#">Our story</a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-medium text-dark" href="#" data-bs-toggle="dropdown">
+                        Disover
+                        By Category
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% categories.forEach(category=> { %>
+                            <li>
+                                <a class="dropdown-item" href="/posts/categories/<%= category._id %>">
+                                    <%= category.name %>
+                                </a>
+                            </li>
+                            <% }) %>
+                    </ul>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-medium text-dark" href="/aboutus">About Us</a>
+                </li>
+
+            </ul>
+
+            <!-- Right: Auth Buttons -->
+            <% if(!user){ %>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/user/login" class="text-dark fw-medium text-decoration-none">Log in</a>
+                    <a href="/user/signup" class="btn btn-primary px-4 py-1">Sign up</a>
+                </div>
+                <% } else { %>
+                    <div class="dropdown-center col-2 text-center">
+                        <a class="dropdown-toggle d-flex flex-column align-items-center" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="text-decoration: none; cursor: pointer;">
+
+                            <% if (user.profilepic) { %>
+                                <img src="data:<%= user.profilepic.contentType %>;base64,<%= user.profilepic.toString('base64') %>"
+                                    class="rounded-circle" style="height: 3rem; width: 3rem;" alt="Profile">
+                                <% } else { %>
+                                    <img src="/images/default-profile.png" class="rounded-circle"
+                                        style="height: 3rem; width: 3rem;" alt="Profile">
+                                    <% } %>
+
+                                        <small style="margin-top: 2px; color: inherit;">
+                                            <%= user.fname %>
+                                        </small>
+                        </a>
+
+                        <ul class="dropdown-menu text-center">
+                            <li><a class="dropdown-item" href="/user/profile">View Profile</a></li>
+                            <li><a class="dropdown-item" href="/user/posts">My Posts</a></li>
+                            <li>
+                                <a class="dropdown-item bg-danger text-white mx-auto my-2 border-2 rounded-3 w-50 shadow hover-shadow-lg"
+                                    role="button" href="/user/logout">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <% } %>
+
+
+        </div>
+    </nav>
+    <div class="cont-pad" style="padding-top: 4rem;">
+        <% if (messages.success && messages.success.length> 0) { %>
+            <div class="alert alert-success alert-dismissible show" role="alert"
+                style="z-index: 1050; position: relative;">
+                <%= messages.success[0] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
+                <% if (messages.error && messages.error.length> 0) { %>
+                    <div class="alert alert-danger alert-dismissible show" role="alert"
+                        style="z-index: 1050; position: relative;">
+                        <%= messages.error[0] %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+
+                        <%- body %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(el => el.remove());
+        }, 3000); // disappears after 3 seconds
+    </script>
+
+
+    <script>
+        // Bootstrap custom validation
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+</body>
+
+</html>

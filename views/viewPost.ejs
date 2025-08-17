@@ -1,0 +1,134 @@
+<% layout('./layouts/boilerplate') -%>
+    <div class="d-flex justify-content-center py-5" style="min-height: 100vh;">
+        <div class="card mb-3">
+            <!-- <img src="/images/image.png" class="card-img-top img-fluid object-fit-cover" style="height: 500px;"
+                alt="..."> -->
+
+            <% if (post.coverImage) { %>
+                <img src="data:<%= post.coverImage.contentType %>;base64,<%=post.coverImage.toString('base64') %>"
+                    alt="Cover Image" class="card-img-top img-fluid object-fit-cover" style="height: 500px;" />
+                <% } else { %>
+                    <img src="/images/blogdefault.jpg" alt="Cover Image"
+                        class="card-img-top img-fluid object-fit-cover" style="height: 500px;" />
+                    <% } %>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <% if (post.author.profilepic) { %>
+                                    <img src="data:<%= post.author.profilepic.contentType %>;base64,<%=post.author.profilepic.toString('base64') %>"
+                                        alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
+                                    <% } else { %>
+                                        <img src="/images/default-profile.png" alt="Default Profile Picture" width="25"
+                                            height="25" class="rounded-circle me-2" />
+                                        <% } %>
+                                            <small class="text-muted">&nbsp; <%= post.author?.username || "Unknown" %>
+                                            </small>
+                                            <span class="badge me-2"
+                                                style="font-size: 0.8rem; color: #84888e; background-color: #F8F9FA;">
+
+                                                <%= post.timeAgo %>
+                                            </span>
+                            </div>
+                            <h5 class="card-title">
+                                <%=post.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%=post.content%>
+                            </p>
+                            <div class="buttons-container">
+
+                            </div>
+                            <% if (user && user._id.toString()===post.author._id.toString()) { %>
+                                <div class="d-flex gap-2 mt-3">
+
+                                    <!-- Edit Button -->
+                                    <a href="/posts/<%= post._id %>/edit" class="btn btn-sm btn-outline-primary mb-2">
+                                        ✏️ Edit
+                                    </a>
+
+                                    <!-- Delete Form -->
+                                    <form action="/posts/<%= post._id %>?_method=DELETE" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger mb-2">
+                                            🗑️ Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <% } %>
+
+                                    <% if (user) { %>
+                                        <!-- ❤️ Like Button -->
+                                        <form action="/posts/<%= post._id %>/like" method="POST"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-outline-primary">
+                                                <i class="fas fa-heart"></i>
+                                                 <%= post.likes.length %>
+                                            </button>
+                                        </form>
+
+                                        <!-- 💔 Unlike Button -->
+                                        <form action="/posts/<%= post._id %>/unlike" method="POST"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                <i class="fas fa-heart-broken"></i>
+                                                 <%= post.unlikes.length %>
+                                            </button>
+                                        </form>
+                                        <% } else { %>
+
+                                            <button onclick="alert('Please log in to like or unlike this post.')"
+                                                class="btn btn-outline-primary">Like (<%= post.likes.length %>
+                                                    )</button>
+                                            <button onclick="alert('Please log in to like or unlike this post.')"
+                                                class="btn btn-outline-danger">Unlike (<%= post.likes.length %>
+                                                    )</button>
+                                            <% } %>
+                                                <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+                        </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+
+
+        <form action="/posts/<%= post._id %>/comment" method="post" class="mb-4">
+            <div class="mb-3 col-md-6">
+                <label for="commentText" class="form-label">Leave a comment</label>
+                <textarea name="text" id="commentText" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+
+        <!-- 🔶 Comment List -->
+        <h4 class="mb-3">Comments</h4>
+        <ul class="list-unstyled">
+            <% post.comments.forEach(comment=> { %>
+                <li class="mb-3 border-bottom pb-2">
+                    <div class="d-flex align-items-start">
+                        <!-- Optional user avatar -->
+                        <!-- <img src="/images/profile.png" alt="avatar" width="40" height="40"
+                            class="rounded-circle me-3" /> -->
+                        <% if (comment.user.profilepic) { %>
+                            <img src="data:<%= comment.user.profilepic.contentType %>;base64,<%=comment.user.profilepic.toString('base64') %>"
+                                alt="Profile Picture" width="40" height="40" class="rounded-circle me-3" />
+                            <% } else { %>
+                                <img src="/images/default-profile.png" alt="Default Profile Picture" width="40"
+                                    height="40" class="rounded-circle me-3" />
+                                <% } %>
+
+                                    <div>
+                                        <strong>
+                                            <%= comment.user.username %>
+                                                <!-- <%= comment.user.profilepic %> -->
+
+                                        </strong><br />
+                                        <p class="mb-1">
+                                            <%= comment.content %>
+                                        </p>
+                                        <!-- Optional: date, actions, etc. -->
+                                    </div>
+                    </div>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
