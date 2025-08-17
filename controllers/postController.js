@@ -247,7 +247,7 @@ module.exports.viewByCategory = async (req, res) => {
       return res.redirect("/posts");
     }
 
-    res.render("viewByCategory", { posts, category });
+    res.render("viewBycategory", { posts, category });
   } catch (err) {
     console.error("Error in viewByCategory:", err);
     req.flash("error", "Unable to load category posts.");
