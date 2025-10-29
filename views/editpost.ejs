@@ -1,5 +1,5 @@
 <% layout('./layouts/boilerplate') -%>
-<div class="container col-md-5 py-5">
+<div class="container col-md-12 py-5">
   <form class="needs-validation" novalidate method="post" action="/posts/<%= post._id %>?_method=PUT" enctype="multipart/form-data">
 
     <!-- Title -->
@@ -12,14 +12,20 @@
       </div>
     </div>
 
-    <!-- Content -->
-    <div class="mb-4">
-      <label for="content" class="form-label">Content :</label>
-      <textarea class="form-control" name="content" rows="12" required minlength="10"><%= post.content %></textarea>
-      <div class="invalid-feedback">
-        Please enter the content (at least 10 characters).
-      </div>
-    </div>
+   <!-- Content -->
+<div class="mb-4">
+  <label for="content" class="form-label">Content :</label>
+
+  <!-- Quill editor container -->
+  <div id="editor" style="height: 40rem;"></div>
+
+  <!-- Hidden textarea to store Quill HTML -->
+  <textarea name="content" id="hiddenContent" style="display:none;"></textarea>
+
+  <div class="invalid-feedback">
+    Please enter the content (at least 10 characters).
+  </div>
+</div>
 
     <!-- Cover Image -->
     <div class="mb-3">
@@ -32,4 +38,21 @@
     </div>
     
   </form>
+
+
+  
 </div>
+
+<script>
+  // Fill editor with existing post content
+  document.addEventListener('DOMContentLoaded', function () {
+    // assuming 'quill' is globally available from the boilerplate
+    quill.root.innerHTML = `<%- post.content %>`;
+
+    // before form submission, save editor HTML into hidden field
+    document.querySelector('form').addEventListener('submit', function () {
+      document.querySelector('#hiddenContent').value = quill.root.innerHTML;
+    });
+  });
+</script>
+

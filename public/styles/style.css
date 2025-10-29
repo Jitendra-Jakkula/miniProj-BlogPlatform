@@ -29,3 +29,15 @@
 .ql-align-justify{
     text-align: justify;
 }
+
+.ql-align-left{
+    text-align: left;
+}
+
+.ql-align-right{
+    text-align: right;
+}
+
+.ql-align-center{
+    text-align: center;
+}
