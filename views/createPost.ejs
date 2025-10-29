@@ -1,6 +1,6 @@
 <% layout('./layouts/boilerplate') -%>
 
-<div class="container col-md-5 py-5">
+<div class="container col-md-12 py-5">
   <h2 class="mb-4 text-center">Create Post</h2>
 
   <form method="post" action="/posts/create" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -14,15 +14,7 @@
       </div>
     </div>
 
-    <!-- Content -->
-    <div class="mb-4">
-      <label for="content" class="form-label">Content:</label>
-      <textarea class="form-control" name="content" rows="10" required minlength="10"></textarea>
-      <div class="invalid-feedback">
-        Content is required (min 10 characters).
-      </div>
-    </div>
-
+    
     <!-- Cover Image -->
     <div class="mb-3">
       <label for="coverImage" class="form-label">Cover Image:</label>
@@ -31,6 +23,20 @@
         Please upload a valid image file.
       </div>
     </div>
+    
+    <!-- Content -->
+    <!-- <div class="mb-4">
+      <label for="content" class="form-label">Content:</label>
+      <textarea class="form-control" name="content" rows="10" required minlength="10"></textarea>
+      <div class="invalid-feedback">
+        Content is required (min 10 characters).
+      </div>
+    </div> -->
+
+    <div id="editor" style="height: 40rem;"></div>
+
+<!-- Hidden textarea to hold the actual content -->
+<textarea name="content" id="hiddenContent" style="display:none;"></textarea>
 
     <!-- Category -->
     <div class="mb-4">

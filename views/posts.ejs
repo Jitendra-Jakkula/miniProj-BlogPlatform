@@ -1,130 +1,149 @@
+<!-- import { decode } from 'he';
+function stripTags(html) {
+  const noTags = html.replace(/<\/?[^>]+(>|$)/g, "");
+  return decode(noTags);
+} -->
+
 <% layout('./layouts/boilerplate') -%>
+  <% function stripTags(html) { return html
+    .replace(/<\/?[^>]+(>|$)/g, "")   // remove HTML tags
+    .replace(/&nbsp;/g, " ")           // replace non-breaking spaces
+    .replace(/&amp;/g, "&")            // optional: decode "&amp;" to "&"             // optional: decode "&gt;" to ">"
+    .trim();
+    } %>
 
-  <% if (!post.length) { %>
-    <p class="text-muted fs-5 text-center mx-auto py-5">No posts found. Do you want to <a href="/posts/create">create</a> one?
-    </p>
-    <% } %>
-      <!-- 🔄 Page-Centering Wrapper -->
-      <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <% if (!post.length) { %>
+      <p class="text-muted fs-5 text-center mx-auto py-5">No posts found. Do you want to <a
+          href="/posts/create">create</a> one?
+      </p>
+      <% } %>
+        <!-- 🔄 Page-Centering Wrapper -->
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
-        <!-- ✅ Centered Container -->
-        <div class="container py-5">
+          <!-- ✅ Centered Container -->
+          <div class="container py-5">
 
-          <!-- 🟦 Big Hero Card (top full width) -->
+            <!-- 🟦 Big Hero Card (top full width) -->
 
-          <% if (post.length> 0) { const p = post[0]; %>
-            <div class="card border-0 rounded-4 shadow-sm overflow-hidden mb-5"
-              style="min-height: 250px; min-width: 98%">
-              <div class="row g-0 h-100">
+            <% if (post.length> 0) { const p = post[0]; %>
+              <div class="card border-0 rounded-4 shadow-sm overflow-hidden mb-5"
+                style="min-height: 250px; min-width: 98%">
+                <div class="row g-0 h-100">
 
-                <!-- Image -->
-                <div class="col-md-6 bg-light d-flex align-items-center justify-content-center">
-                  <!-- <img src="/images/image.png" class="img-fluid h-100 object-fit-cover" alt="..."> -->
-                  <% if (p.coverImage) { %>
-                    <img src="data:<%= p.coverImage.contentType %>;base64,<%=p.coverImage.toString('base64') %>"
-                      alt="Cover Image" class="img-fluid h-100 object-fit-cover" />
-                    <% } else { %>
-                      <img src="/images/blogdefault.jpg" alt="Cover Image" width="40" height="40"
-                        class="img-fluid h-100 object-fit-cover" />
-                      <% } %>
-                </div>
-
-                <!-- Content -->
-                <div class="col-md-6 p-4 d-flex flex-column">
-                  <!-- Category -->
-                  <div class="mb-2">
-                    <span class="badge bg-dark me-2">
-                      <%= p.category?.name || "Uncategorized" %>
-                    </span>
-                    <span class="badge me-2" style="font-size: 0.8rem; color: #84888e; background-color: #F8F9FA;">
-
-                      <%= p.timeAgo %>
-                    </span>
-                  </div>
-
-                  <!-- Title -->
-                  <h3 class="fw-bold mb-3">
-                    <%= p.title %>
-                  </h3>
-
-                  <!-- ✅ Author Image + Name -->
-                  <div class="d-flex align-items-center mb-3">
-                    <% if (p.author.profilepic) { %>
-                      <img
-                        src="data:<%= p.author.profilepic.contentType %>;base64,<%=p.author.profilepic.toString('base64') %>"
-                        alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
+                  <!-- Image -->
+                  <div class="col-md-6 bg-light d-flex align-items-center justify-content-center">
+                    <!-- <img src="/images/image.png" class="img-fluid h-100 object-fit-cover" alt="..."> -->
+                    <% if (p.coverImage) { %>
+                      <img src="data:<%= p.coverImage.contentType %>;base64,<%=p.coverImage.toString('base64') %>"
+                        alt="Cover Image" class="img-fluid h-100 object-fit-cover" />
                       <% } else { %>
-                        <img src="/images/default-profile.png" alt="Default Profile Picture" width="25" height="25"
-                          class="rounded-circle me-2" />
+                        <img src="/images/blogdefault.jpg" alt="Cover Image" width="40" height="40"
+                          class="img-fluid h-100 object-fit-cover" />
                         <% } %>
-                          <small class="text-muted">&nbsp; <%= p.author?.username || "Unknown" %></small>
                   </div>
 
-                  <!-- Content Preview -->
-                  <p class="text-muted mb-4">
-                    <%= p.content.length> 200 ? p.content.slice(0, 200) + '...' : p.content %>
-                  </p>
+                  <!-- Content -->
+                  <div class="col-md-6 p-4 d-flex flex-column">
+                    <!-- Category -->
+                    <div class="mb-2">
+                      <span class="badge bg-dark me-2">
+                        <%= p.category?.name || "Uncategorized" %>
+                      </span>
+                      <span class="badge me-2" style="font-size: 0.8rem; color: #84888e; background-color: #F8F9FA;">
 
-                  <!-- Read More -->
-                  <a href="/posts/<%= p._id %>" class="btn btn-outline-dark align-self-start">Read more →</a>
-                </div>
+                        <%= p.timeAgo %>
+                      </span>
+                    </div>
 
+                    <!-- Title -->
+                    <h3 class="fw-bold mb-3">
+                      <%= p.title %>
+                    </h3>
 
-              </div>
-            </div>
-            <% } %>
-
-              <!-- 🟩 Small Cards (grid under big card) -->
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <% post.slice(1).forEach(p=> { %>
-                  <div class="col">
-                    <div class="card h-100 shadow-sm border-0 rounded-3" style="width: 95%;">
-                      <!-- <img src="/images/image.png" class="card-img-top" alt="..."> -->
-                      <% if (p.coverImage) { %>
-                        <div class="ratio ratio-16x9">
-                          <img src="data:<%= p.coverImage.contentType %>;base64,<%= p.coverImage.toString('base64') %>"
-                            alt="Cover Image" class="card-img-top"
-                            style="object-fit: cover; width: 100%; height: 100%;" />
-                        </div>
+                    <!-- ✅ Author Image + Name -->
+                    <div class="d-flex align-items-center mb-3">
+                      <% if (p.author.profilepic) { %>
+                        <img
+                          src="data:<%= p.author.profilepic.contentType %>;base64,<%=p.author.profilepic.toString('base64') %>"
+                          alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
                         <% } else { %>
+                          <img src="/images/default-profile.png" alt="Default Profile Picture" width="25" height="25"
+                            class="rounded-circle me-2" style="height: 20px; width: 20px; border-radius: 50%;  object-fit: cover;  "/>
+                          <% } %>
+                            <small class="text-muted">&nbsp; <%= p.author?.username || "Unknown" %></small>
+                    </div>
+
+                    <!-- Content Preview -->
+                    <p class="text-muted mb-4">
+                      <%= stripTags(p.content).length> 200
+                        ? stripTags(p.content).slice(0, 200) + '...'
+                        : stripTags(p.content) %>
+                    </p>
+
+                    <!-- Read More -->
+                    <a href="/posts/<%= p._id %>" class="btn btn-outline-dark align-self-start">Read more →</a>
+                  </div>
+
+
+                </div>
+              </div>
+              <% } %>
+
+                <!-- 🟩 Small Cards (grid under big card) -->
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                  <% post.slice(1).forEach(p=> { %>
+                    <div class="col">
+                      <div class="card h-100 shadow-sm border-0 rounded-3" style="width: 95%;">
+                        <!-- <img src="/images/image.png" class="card-img-top" alt="..."> -->
+                        <% if (p.coverImage) { %>
                           <div class="ratio ratio-16x9">
-                            <img src="/images/blogdefault.jpg" alt="Default Cover Image" class="card-img-top"
+                            <img
+                              src="data:<%= p.coverImage.contentType %>;base64,<%= p.coverImage.toString('base64') %>"
+                              alt="Cover Image" class="card-img-top"
                               style="object-fit: cover; width: 100%; height: 100%;" />
                           </div>
-                          <% } %>
-
-                            <div class="card-body">
-                              <span class="badge bg-dark mb-2">
-                                <%= p.category?.name || "Uncategorized" %>
-                              </span>
-                              <span class="badge me-2"
-                                style="font-size: 0.6rem; color: #84888e; background-color: #F8F9FA;">
-
-                                <%= p.timeAgo %>
-                              </span>
-                              <h5 class="card-title">
-                                <%= p.title %>
-                              </h5>
-                              <div class="d-flex align-items-center mb-3">
-                                <% if (p.author.profilepic) { %>
-                                  <img
-                                    src="data:<%= p.author.profilepic.contentType %>;base64,<%=p.author.profilepic.toString('base64') %>"
-                                    alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
-                                  <% } else { %>
-                                    <img src="/images/default-profile.png" alt="Default Profile Picture" width="25"
-                                      height="25" class="rounded-circle me-2" />
-                                    <% } %>
-                                      <small class="text-muted">&nbsp; <%= p.author?.username || "Unknown" %></small>
-                              </div>
-                              <p class="card-text text-muted">
-                                <%= p.content.length> 100 ? p.content.slice(0, 100) + '...' : p.content %>
-                              </p>
-                              <a href="/posts/<%= p._id %>" class="btn btn-sm btn-outline-primary">Read more</a>
+                          <% } else { %>
+                            <div class="ratio ratio-16x9">
+                              <img src="/images/blogdefault.jpg" alt="Default Cover Image" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" />
                             </div>
-                    </div>
-                  </div>
-                  <% }); %>
-              </div>
+                            <% } %>
 
+                              <div class="card-body">
+                                <span class="badge bg-dark mb-2">
+                                  <%= p.category?.name || "Uncategorized" %>
+                                </span>
+                                <span class="badge me-2"
+                                  style="font-size: 0.6rem; color: #84888e; background-color: #F8F9FA;">
+
+                                  <%= p.timeAgo %>
+                                </span>
+                                <h5 class="card-title">
+                                  <%= p.title %>
+                                </h5>
+                                <div class="d-flex align-items-center mb-3">
+                                  <% if (p.author.profilepic) { %>
+                                    <img
+                                      src="data:<%= p.author.profilepic.contentType %>;base64,<%=p.author.profilepic.toString('base64') %>"
+                                      alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
+                                    <% } else { %>
+                                      <img src="/images/default-profile.png" alt="Default Profile Picture" width="25"
+                                        height="25" class="rounded-circle me-2" />
+                                      <% } %>
+                                        <small class="text-muted">&nbsp; <%= p.author?.username || "Unknown" %></small>
+                                </div>
+                                <p class="card-text text-muted">
+    
+                                    <%= stripTags(p.content).length> 100
+                                      ? stripTags(p.content).slice(0, 100) + '...'
+                                      : stripTags(p.content) %>
+                                </p>
+                                <a href="/posts/<%= p._id %>" class="btn btn-sm btn-outline-primary">Read more</a>
+                              </div>
+                      </div>
+                    </div>
+                    <% }); %>
+                </div>
+
+          </div>
         </div>
-      </div>

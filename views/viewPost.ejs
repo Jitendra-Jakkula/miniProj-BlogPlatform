@@ -11,14 +11,14 @@
                     <img src="/images/blogdefault.jpg" alt="Cover Image"
                         class="card-img-top img-fluid object-fit-cover" style="height: 500px;" />
                     <% } %>
-                        <div class="card-body">
+                        <div class="card-body cardBody">
                             <div class="d-flex align-items-center mb-3">
                                 <% if (post.author.profilepic) { %>
                                     <img src="data:<%= post.author.profilepic.contentType %>;base64,<%=post.author.profilepic.toString('base64') %>"
-                                        alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;" />
+                                        alt="Profile Picture" style="height: 20px; width: 20px; border-radius: 50%;  object-fit: cover;  " />
                                     <% } else { %>
                                         <img src="/images/default-profile.png" alt="Default Profile Picture" width="25"
-                                            height="25" class="rounded-circle me-2" />
+                                            height="25" class="rounded-circle me-2" style="height: 20px; width: 20px; border-radius: 50%;  object-fit: cover;  "/>
                                         <% } %>
                                             <small class="text-muted">&nbsp; <%= post.author?.username || "Unknown" %>
                                             </small>
@@ -28,11 +28,13 @@
                                                 <%= post.timeAgo %>
                                             </span>
                             </div>
+
+                            <!-- ---------------------------------------#######################3------------------------------------- -->
                             <h5 class="card-title">
                                 <%=post.title %>
                             </h5>
-                            <p class="card-text">
-                                <%=post.content%>
+                            <p class="card-text cardBody">
+                                <%-post.content%>
                             </p>
                             <div class="buttons-container">
 

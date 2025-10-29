@@ -25,6 +25,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^8.17.0",
     "multer": "^2.0.2",
+    "quill-image-resize-module": "^3.0.0",
     "timeago": "^1.6.7",
     "timeago.js": "^4.0.2"
   }

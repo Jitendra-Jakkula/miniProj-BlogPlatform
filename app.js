@@ -11,11 +11,11 @@ const getCategories = require("./middlewares/getCategories");
 const session = require("express-session");
 const flash = require("connect-flash");
 
-
 const setUser = require("./middlewares/setUser");
 const methodOverride = require('method-override');
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const multerDiskSt = require("./utils/multerDiskstorage");
 
 connectDB();
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride('_method'))
 app.engine("ejs",engine);
 app.set("view engine", "ejs");
+// app.use("/uploads", express.static("uploads"));
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -56,7 +58,7 @@ app.use("/user", userRoute);
 app.use("/posts", postRoute);
 app.use("/",commentsRoute);
 app.use("/categories", categoryRoutes);
-
+app.use("/uploads",multerDiskSt);
 app.get("/", (req, res) => {
   res.redirect("/posts");
 });

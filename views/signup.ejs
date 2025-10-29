@@ -126,6 +126,26 @@
     })()
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  const form = document.querySelector('form');
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', function (e) {
+    // Optional: prevent immediate submission if you want to test the effect
+    // e.preventDefault();
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Signing Up...';
+
+    // Re-enable after 3 seconds (simulate a loading period)
+    setTimeout(() => {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Sign Up';
+    }, 2000);
+  });
+</script>
+
 </body>
 
 </html>
